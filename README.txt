@@ -8,3 +8,4 @@ ENARMIA V6 — ONBOARDING
 Flujo: bienvenida -> objetivo -> tiempo -> preguntas/temas -> cómo aprendes -> prioridades + calendario -> estilo del tutor -> resumen.
 
 El calendario sí se guarda en Storage privado. El siguiente paso será leer automáticamente PDF/Excel/Word con una función del servidor y convertir el calendario en tareas del plan diario.
+Deploy ENARMIA conectado
