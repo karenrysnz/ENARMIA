@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ENARMIA · Estudio inteligente</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--ink:#11110f;--muted:#706c65;--soft:#f5f1e9;--cream:#fbf9f5;--gold:#b7852f;--gold2:#d7b36a;--line:#e7e0d4;--card:#fff;--green:#20885f;--red:#bf5050;--shadow:0 14px 46px rgba(31,24,14,.075);--r:22px}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.9);backdrop-filter:blur(16px);position:sticky;top:0;z-index:20}.brand{font-weight:900;letter-spacing:.16em;font-size:19px}.brand small{display:block;font-size:8px;color:var(--gold);letter-spacing:.28em;margin-top:2px}.nav{display:flex;gap:5px}.nav button{border:0;background:transparent;border-radius:14px;padding:10px 13px;color:#666}.nav button.active,.nav button:hover{background:var(--soft);color:#111}.actions{display:flex;gap:9px;align-items:center}.pill{border:1px solid var(--line);border-radius:999px;padding:9px 13px;background:#fff;color:#5f5b55;font-size:13px}.wrap{max-width:1280px;margin:auto;padding:30px 26px 70px}.grid{display:grid;gap:18px}.btn{border:0;border-radius:13px;padding:12px 17px;background:linear-gradient(135deg,#c0923e,#a87524);color:white;font-weight:800;box-shadow:0 10px 24px rgba(183,133,47,.18)}.btn.secondary{background:#fff;color:#111;border:1px solid var(--line);box-shadow:none}.btn.ghost{background:transparent;color:#111;border:1px solid var(--line);box-shadow:none}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}.eyebrow{text-transform:uppercase;letter-spacing:.17em;font-size:10px;font-weight:900;color:var(--gold)}.title{font-family:Georgia,serif;font-weight:500;letter-spacing:-.02em}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:stretch}.hero h1{font-size:58px;line-height:1;margin:10px 0 12px}.hero p{max-width:760px;color:#625e56;line-height:1.65;font-size:16px}.hero .cta{display:flex;gap:9px;margin-top:20px}.mission{background:linear-gradient(145deg,#1a1814,#2a251e);color:#fff;padding:26px;border-radius:28px;position:relative;overflow:hidden;min-height:270px}.mission:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(215,179,106,.12);right:-50px;top:-65px}.mission h3{font:500 27px Georgia,serif;margin:10px 0 7px;max-width:300px;position:relative;z-index:1}.mission p{color:#ded8ce;line-height:1.5;max-width:320px;position:relative;z-index:1}.mission .tag{display:inline-block;background:rgba(255,255,255,.09);padding:6px 9px;border-radius:999px;font-size:11px;position:relative;z-index:1}.mission .btn{position:relative;z-index:1;margin-top:10px}.stats{grid-template-columns:repeat(4,1fr);margin-top:21px}.stat .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#7d786f}.stat .num{font-size:30px;font-weight:900;margin-top:6px}.section-head{display:flex;justify-content:space-between;align-items:end;margin:38px 0 15px}.section-head h2{font:500 31px Georgia,serif;margin:0}.section-head p{margin:3px 0 0;color:#7d786f}.dashboard-grid{grid-template-columns:1.22fr .78fr}.today-list{display:flex;flex-direction:column;gap:10px}.today-item{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}.today-item:last-child{border-bottom:0}.numdot{width:29px;height:29px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--gold);flex:none}.specialty-list{display:flex;flex-direction:column;gap:13px}.spec-row{display:grid;grid-template-columns:155px 1fr 46px;gap:10px;align-items:center;font-size:13px}.bar{height:9px;background:#ece7de;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:999px}.spec-pct{text-align:right;font-weight:800}.weak{color:var(--red)}.good{color:var(--green)}.mini{font-size:12px;color:#777;line-height:1.5}.feature-grid{grid-template-columns:repeat(3,1fr)}.feature h3{margin:9px 0 6px}.feature p{color:#6f6a62;line-height:1.55;font-size:13px}.question-card{max-width:920px;margin:auto}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tag{background:var(--soft);border-radius:999px;padding:6px 9px;font-size:11px;color:#665f55}.stem{font:500 27px/1.43 Georgia,serif}.stem p{margin:0 0 10px}.option{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:15px;padding:15px 17px;margin:9px 0;transition:.18s}.option:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.05)}.option.selected{background:#fcf7ed;border-color:var(--gold)}.option.correct{background:#effaf5;border-color:#9bd9be}.option.wrong{background:#fff0f0;border-color:#e1aaaa}.key{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#f0ece3;font-size:11px;font-weight:900;margin-right:8px}.feedback{margin-top:18px;border-radius:17px;padding:17px;border:1px solid var(--line)}.feedback.good{background:#effaf5;border-color:#c5e9d6}.feedback.bad{background:#fff2f2;border-color:#efd0d0}.feedback h3{margin:0 0 8px}.feedback .explain{color:#555;line-height:1.6}.toolbar{display:flex;justify-content:space-between;gap:10px;margin-top:20px}.progress-layout{grid-template-columns:1fr 1fr}.profile-grid{grid-template-columns:1fr 1fr}.field{margin:13px 0}.field label{display:block;font-size:12px;font-weight:800;color:#5f5b55;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;border:1px solid #dcd5ca;background:#fff;border-radius:12px;padding:12px 13px;outline:none}.field textarea{min-height:140px;resize:vertical}.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;text-align:left}.choice.active{border-color:var(--gold);background:#fcf7ed}.chat{height:430px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto;padding:4px 2px 8px}.bubble{max-width:78%;padding:13px 14px;border-radius:16px;margin:8px 0;line-height:1.55;font-size:13px}.bubble.ai{background:var(--soft)}.bubble.me{margin-left:auto;background:#171512;color:#fff}.chatbar{display:flex;gap:8px}.chatbar input{flex:1;border:1px solid var(--line);border-radius:13px;padding:12px}.material-grid{grid-template-columns:repeat(3,1fr)}.material-card h3{margin:8px 0 5px}.material-card p{color:#6d685f;font-size:13px;line-height:1.5}.empty{padding:34px;text-align:center;color:#777}.auth{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 15% 10%,#fff 0,#fbf9f5 44%,#ede5d7 100%);padding:24px}.auth-card{width:min(430px,100%);background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:32px}.auth-card h1{font:500 37px Georgia,serif;margin:27px 0 7px}.auth-card p{color:#777;line-height:1.5}.toast{position:fixed;bottom:23px;right:23px;background:#111;color:#fff;padding:12px 14px;border-radius:12px;opacity:0;transform:translateY(12px);transition:.2s;z-index:50}.toast.show{opacity:1;transform:none}.subtle{color:#7b766f;font-size:13px}.danger{color:var(--red)}
+@media(max-width:1000px){.hero,.dashboard-grid,.profile-grid,.progress-layout{grid-template-columns:1fr}.feature-grid,.material-grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.nav{display:none}}
+@media(max-width:650px){.topbar{padding:0 15px}.pill{display:none}.wrap{padding:23px 15px 48px}.hero h1{font-size:41px}.stats,.feature-grid,.material-grid,.choice-grid{grid-template-columns:1fr}.spec-row{grid-template-columns:110px 1fr 42px}.stem{font-size:23px}}
+
+.onboarding-backdrop{position:fixed;inset:0;background:rgba(23,20,16,.36);backdrop-filter:blur(12px);z-index:80;display:flex;align-items:center;justify-content:center;padding:24px}.onboarding-shell{width:min(1080px,100%);max-height:calc(100vh - 48px);overflow:auto;background:var(--cream);border:1px solid rgba(255,255,255,.75);border-radius:30px;box-shadow:0 30px 100px rgba(20,16,10,.22)}.onboarding-top{display:flex;align-items:center;justify-content:space-between;padding:22px 26px 0}.onboarding-brand{font-weight:900;letter-spacing:.16em}.onboarding-brand small{display:block;font-size:8px;color:var(--gold);letter-spacing:.28em;margin-top:2px}.onboarding-progress{display:flex;gap:6px;align-items:center}.step-dot{width:8px;height:8px;border-radius:50%;background:#ded7ca}.step-dot.active{width:22px;border-radius:999px;background:var(--gold)}.onboarding-content{padding:28px 34px 34px}.onboarding-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:11px;color:#6b655d}.onboarding-content h1{font:500 clamp(36px,5vw,58px)/1.02 Georgia,serif;margin:16px 0 10px;letter-spacing:-.03em}.onboarding-content h1 span{color:var(--gold)}.onboarding-content .lead{font-size:16px;line-height:1.65;color:#615c54;max-width:760px;margin:0}.onboarding-panel{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.onboarding-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}.onboarding-card h3{margin:0 0 7px;font-size:16px}.onboarding-card p{margin:0;color:#746f67;font-size:13px;line-height:1.55}.choice-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.choice.choice-lg{padding:15px;border-radius:16px;min-height:74px}.choice.choice-lg strong{display:block;font-size:14px;color:#171511}.choice.choice-lg small{display:block;color:#77716a;margin-top:4px;line-height:1.35}.choice.choice-lg.active{box-shadow:inset 0 0 0 1px var(--gold)}.onboarding-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.onboarding-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}.onboarding-step{display:none}.onboarding-step.active{display:block}.tiny-note{font-size:11px;color:#8a847b;line-height:1.5}.progress-preview{display:grid;gap:10px}.preview-line{display:flex;justify-content:space-between;font-size:13px;color:#5f5b55}.preview-line strong{color:#171511}.upload-zone{border:1.5px dashed #d5ccbd;border-radius:18px;padding:24px;text-align:center;background:#fcfaf6}.upload-zone input{display:none}.upload-zone .upload-title{font-weight:900;margin-top:7px}.upload-zone .upload-meta{font-size:12px;color:#7e776e;margin-top:4px}.file-chip{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:#f4efe5;border-radius:999px;padding:7px 10px;font-size:12px;color:#5f584e}.analysis-card{background:linear-gradient(145deg,#1b1813,#2b251d);color:#fff;border-radius:22px;padding:22px}.analysis-card .eyebrow{color:#d8b679}.analysis-card h3{font:500 28px Georgia,serif;margin:9px 0}.analysis-card p{color:#ddd5c9;line-height:1.55;font-size:13px}.recommend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.recommend{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px}.recommend span{display:block;color:#cdb98f;font-size:10px;text-transform:uppercase;letter-spacing:.12em}.recommend strong{display:block;font-size:20px;margin-top:4px}.profile-grid{grid-template-columns:1fr 1fr}@media(max-width:900px){.onboarding-panel,.profile-grid{grid-template-columns:1fr}.choice-wrap,.onboarding-row{grid-template-columns:1fr}.recommend-grid{grid-template-columns:1fr 1fr}}@media(max-width:620px){.onboarding-content{padding:20px}.onboarding-top{padding:16px 20px 0}.onboarding-shell{max-height:calc(100vh - 18px);border-radius:24px}.onboarding-footer{align-items:stretch;flex-direction:column}.onboarding-footer .right{display:flex;gap:8px;justify-content:flex-end}.topbar{padding:0 14px}.nav{display:none}}
+
+</style>
+</head>
+<body>
+<div id="authView" class="auth">
+  <div class="auth-card">
+    <div class="brand">ENARMIA<small>ESTUDIO INTELIGENTE</small></div>
+    <h1 id="authTitle">Bienvenida de vuelta</h1><p id="authSubtitle">Entra para continuar tu preparación.</p>
+    <form id="authForm">
+      <div class="field hidden" id="nameField"><label>Nombre</label><input id="name" autocomplete="name"></div>
+      <div class="field"><label>Correo</label><input id="email" type="email" required autocomplete="email"></div>
+      <div class="field"><label>Contraseña</label><input id="password" type="password" minlength="6" required></div>
+      <button class="btn" style="width:100%" id="authBtn">Iniciar sesión</button>
+    </form>
+    <div style="text-align:center;margin-top:17px;font-size:13px;color:#777"><span id="switchText">¿Primera vez en ENARMIA?</span> <button class="btn ghost" id="switchBtn" type="button" style="padding:7px 9px;margin-left:4px">Crear cuenta</button></div>
+  </div>
+</div>
+
+
+<div id="onboardingView" class="onboarding-backdrop hidden">
+  <div class="onboarding-shell">
+    <div class="onboarding-top">
+      <div class="onboarding-brand">ENARMIA<small>ESTUDIO INTELIGENTE</small></div>
+      <div class="onboarding-progress" id="onboardingDots"></div>
+    </div>
+    <div class="onboarding-content">
+      <div class="onboarding-step active" data-step="0">
+        <div class="onboarding-kicker">✦ Configuración inicial · 2–3 min</div>
+        <h1>Bienvenida, <span id="welcomeName">Karen</span>.</h1>
+        <p class="lead">Antes de enseñarte tu panel, quiero conocerte un poco. ENARMIA no te va a imponer 40 preguntas ni una rutina genérica: vamos a construir un plan alrededor del tiempo que realmente tienes y de la forma en que aprendes.</p>
+        <div class="onboarding-panel">
+          <div class="onboarding-card"><h3>¿Qué vamos a definir?</h3><p>Tu disponibilidad, carga diaria, forma de estudiar, prioridades y estilo de acompañamiento. Después ENARMIA convertirá eso en una misión diaria.</p>
+            <div class="choice-wrap">
+              <button class="choice choice-lg active" data-exam-level="Estoy empezando"><strong>Estoy empezando</strong><small>Quiero construir una base y tomar ritmo.</small></button>
+              <button class="choice choice-lg" data-exam-level="Ya llevo un recorrido"><strong>Ya llevo un recorrido</strong><small>Quiero detectar dónde estoy perdiendo puntos.</small></button>
+            </div>
+          </div>
+          <div class="analysis-card"><div class="eyebrow">La idea</div><h3>Tu plan debe caber en tu vida.</h3><p>Primero definimos tu realidad. Después ENARMIA decide qué vale la pena estudiar hoy.</p><div class="recommend-grid"><div class="recommend"><span>preguntas</span><strong>tu ritmo</strong></div><div class="recommend"><span>temas</span><strong>tus prioridades</strong></div><div class="recommend"><span>tiempo</span><strong>tu agenda</strong></div></div></div>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="1">
+        <div class="onboarding-kicker">01 · Tu objetivo</div>
+        <h1>¿Qué estás buscando conseguir?</h1>
+        <p class="lead">Esto nos ayuda a dimensionar tu carga y a decidir qué tan agresivo debe ser el plan.</p>
+        <div class="onboarding-panel">
+          <div class="onboarding-card">
+            <div class="field"><label>Fecha de tu ENARM</label><input id="obExamDate" type="date"></div>
+            <div class="field"><label>Especialidad que buscas</label><input id="obTargetSpecialty" placeholder="Ej. Otorrinolaringología"></div>
+            <div class="field"><label>¿Cómo describirías tu momento actual?</label><select id="obCurrentLevel"><option value="inicio">Estoy empezando</option><option value="avance">Ya llevo varias vueltas</option><option value="repaso">Estoy en repaso final</option></select></div>
+          </div>
+          <div class="analysis-card"><div class="eyebrow">ENARMIA analizará</div><h3>Tu distancia al examen.</h3><p>Con tu fecha y tu disponibilidad calcularemos una carga diaria razonable. No te vamos a saturar por defecto.</p><div id="obDatePreview" class="recommend-grid"><div class="recommend"><span>fecha</span><strong>—</strong></div><div class="recommend"><span>tiempo</span><strong>por definir</strong></div><div class="recommend"><span>carga</span><strong>adaptativa</strong></div></div></div>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="2">
+        <div class="onboarding-kicker">02 · Tu tiempo</div>
+        <h1>¿Cuánto tiempo tienes de verdad?</h1>
+        <p class="lead">Queremos trabajar con tu agenda real, no con una rutina idealizada.</p>
+        <div class="onboarding-card" style="margin-top:24px">
+          <div class="onboarding-row">
+            <div class="field"><label>Minutos disponibles al día</label><input id="obMinutes" type="number" min="15" max="600" value="90"></div>
+            <div class="field"><label>Días de estudio por semana</label><select id="obDays"><option value="3">3 días</option><option value="4">4 días</option><option value="5">5 días</option><option value="6" selected>6 días</option><option value="7">7 días</option></select></div>
+          </div>
+          <div class="field"><label>¿Cuándo prefieres estudiar?</label><div class="choice-wrap" id="obTimeChoices"><button class="choice choice-lg active" data-time="mañana"><strong>Mañana</strong><small>Arranco el día con estudio.</small></button><button class="choice choice-lg" data-time="tarde"><strong>Tarde</strong><small>Estudio después de mis pendientes.</small></button><button class="choice choice-lg" data-time="noche"><strong>Noche</strong><small>Mi mejor concentración llega después.</small></button><button class="choice choice-lg" data-time="flexible"><strong>Flexible</strong><small>Mi horario cambia.</small></button></div></div>
+          <div class="tiny-note">Puedes cambiarlo después. ENARMIA recalculará tu plan cuando tu disponibilidad cambie.</div>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="3">
+        <div class="onboarding-kicker">03 · Tu ritmo</div>
+        <h1>Ahora decide cuánto quieres hacer.</h1>
+        <p class="lead">Aquí no existe “la cantidad correcta”. Tú marcas el ritmo y ENARMIA se adapta.</p>
+        <div class="onboarding-panel">
+          <div class="onboarding-card">
+            <div class="field"><label>Preguntas por día</label><input id="obQuestionGoal" type="number" min="5" max="280" value="30"></div>
+            <div class="choice-wrap" id="obQuestionPresets"><button class="choice choice-lg" data-q="10"><strong>10 preguntas</strong><small>Sesión corta.</small></button><button class="choice choice-lg" data-q="20"><strong>20 preguntas</strong><small>Ritmo ligero.</small></button><button class="choice choice-lg active" data-q="30"><strong>30 preguntas</strong><small>Ritmo constante.</small></button><button class="choice choice-lg" data-q="40"><strong>40 preguntas</strong><small>Ritmo alto.</small></button><button class="choice choice-lg" data-q="80"><strong>80 preguntas</strong><small>Día intenso.</small></button><button class="choice choice-lg" data-q="custom"><strong>Lo configuro yo</strong><small>Escribe tu cantidad.</small></button></div>
+            <div class="field"><label>Temas que quieres tocar por día</label><select id="obTopicGoal"><option value="1" selected>1 tema a profundidad</option><option value="2">2 temas</option><option value="3">3 temas</option><option value="4">4 temas ligeros</option></select></div>
+          </div>
+          <div class="analysis-card"><div class="eyebrow">Tu carga inicial</div><h3 id="obLoadTitle">30 preguntas + 1 tema.</h3><p id="obLoadText">Cuando tengamos tu tiempo, ajustaremos esta carga para que sea sostenible.</p><div class="recommend-grid"><div class="recommend"><span>diario</span><strong id="obCalcQ">30</strong></div><div class="recommend"><span>temas</span><strong id="obCalcT">1</strong></div><div class="recommend"><span>tiempo</span><strong id="obCalcM">90m</strong></div></div></div>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="4">
+        <div class="onboarding-kicker">04 · Cómo aprendes</div>
+        <h1>¿Cómo quieres aprender?</h1>
+        <p class="lead">Puedes elegir más de una forma. ENARMIA la usará para construir tus sesiones y tus materiales.</p>
+        <div class="choice-wrap" id="obLearningChoices">
+          <button class="choice choice-lg active" data-learn="preguntas"><strong>Preguntas</strong><small>Aprendo practicando y corrigiendo errores.</small></button>
+          <button class="choice choice-lg" data-learn="teoria"><strong>Teoría breve</strong><small>Necesito una explicación antes de practicar.</small></button>
+          <button class="choice choice-lg" data-learn="flashcards"><strong>Flashcards</strong><small>Me sirve recordar datos de forma rápida.</small></button>
+          <button class="choice choice-lg" data-learn="casos"><strong>Casos clínicos</strong><small>Aprendo mejor con escenarios completos.</small></button>
+        </div>
+        <div class="onboarding-card" style="margin-top:18px"><h3>Tu estilo de sesión</h3><p>ENARMIA mezclará lo que elijas. No tienes que estudiar de una sola manera.</p></div>
+      </div>
+
+      <div class="onboarding-step" data-step="5">
+        <div class="onboarding-kicker">05 · Tus prioridades</div>
+        <h1>¿Qué quieres estudiar primero?</h1>
+        <p class="lead">Puedes decirnos qué temas te interesan o dejar que ENARMIA los priorice con tus resultados.</p>
+        <div class="onboarding-panel">
+          <div class="onboarding-card">
+            <div class="field"><label>Temas o áreas prioritarias</label><textarea id="obFocusTopics" style="min-height:120px" placeholder="Ej. cardio, urgencias, gine, pediatría…"></textarea></div>
+            <div class="field"><label>¿Qué debería priorizar ENARMIA?</label><select id="obFocusMode"><option value="errores" selected>Mis errores y áreas débiles</option><option value="curso">Lo que aparece en mi curso</option><option value="prioridades">Mis temas prioritarios</option><option value="mixto">Una mezcla de todo</option></select></div>
+          </div>
+          <div class="onboarding-card">
+            <div class="eyebrow">Tu curso</div><h3 style="font:500 27px Georgia,serif;margin:8px 0">Sube tu calendario</h3><p>Más adelante ENARMIA podrá leerlo para adaptar tu plan a lo que toca estudiar cada día.</p>
+            <label class="upload-zone" for="obCalendar" style="display:block;margin-top:15px;cursor:pointer"><div style="font-size:28px">↥</div><div class="upload-title">Subir calendario del curso</div><div class="upload-meta">PDF, Excel, Word o imagen</div><input id="obCalendar" type="file" accept=".pdf,.xlsx,.xls,.csv,.doc,.docx,.png,.jpg,.jpeg"><div id="obFileChip" class="file-chip hidden">📎 <span></span></div></label>
+            <div class="tiny-note" style="margin-top:10px">Puedes saltarlo y subirlo después desde tu perfil.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="6">
+        <div class="onboarding-kicker">06 · Tu tutor</div>
+        <h1>¿Cómo quieres que te acompañe?</h1>
+        <p class="lead">Esto cambia el tono de tus recomendaciones, explicaciones y mensajes de estudio.</p>
+        <div class="choice-wrap" id="obToneChoices">
+          <button class="choice choice-lg active" data-tone="Claro y directo"><strong>Claro y directo</strong><small>Sin rodeos. Dame la respuesta y el porqué.</small></button>
+          <button class="choice choice-lg" data-tone="Amable y motivador"><strong>Amable y motivador</strong><small>Quiero sentir acompañamiento sin presión.</small></button>
+          <button class="choice choice-lg" data-tone="Exigente tipo tutor"><strong>Exigente tipo tutor</strong><small>Apriétame y señálame lo que estoy evitando.</small></button>
+          <button class="choice choice-lg" data-tone="Breve y al grano"><strong>Breve y al grano</strong><small>Solo quiero lo que me ayuda a avanzar.</small></button>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="7">
+        <div class="onboarding-kicker">Tu mapa está listo</div>
+        <h1>Esto es lo que ENARMIA entendió de ti.</h1>
+        <p class="lead">No es una regla fija. Es el punto de partida que iremos ajustando conforme estudies.</p>
+        <div class="onboarding-panel">
+          <div class="analysis-card"><div class="eyebrow">Tu plan inicial</div><h3 id="obSummaryHeadline">Tu día, a tu medida.</h3><p id="obSummaryText">ENARMIA va a convertir tus preferencias en una misión diaria.</p><div class="recommend-grid"><div class="recommend"><span>preguntas</span><strong id="obSummaryQ">—</strong></div><div class="recommend"><span>temas</span><strong id="obSummaryT">—</strong></div><div class="recommend"><span>tiempo</span><strong id="obSummaryM">—</strong></div></div></div>
+          <div class="onboarding-card"><h3>Tu configuración</h3><div class="progress-preview"><div class="preview-line"><span>Objetivo</span><strong id="obSummaryGoal">—</strong></div><div class="preview-line"><span>Forma de aprender</span><strong id="obSummaryLearn">—</strong></div><div class="preview-line"><span>Prioridad</span><strong id="obSummaryFocus">—</strong></div><div class="preview-line"><span>Tutor</span><strong id="obSummaryTone">—</strong></div><div class="preview-line"><span>Calendario</span><strong id="obSummaryFile">No subido</strong></div></div></div>
+        </div>
+      </div>
+
+      <div class="onboarding-footer">
+        <button class="btn ghost" id="obBack">← Atrás</button>
+        <div class="right"><button class="btn secondary hidden" id="obSkip">Omitir por ahora</button><button class="btn" id="obNext">Continuar →</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+<header class="topbar">
+  <div class="brand">ENARMIA<small>ESTUDIO INTELIGENTE</small></div>
+  <nav class="nav">
+    <button class="active" data-view="home">Inicio</button>
+    <button data-view="questions">Preguntas</button>
+    <button data-view="review">Repaso</button>
+    <button data-view="materials">Materiales</button>
+    <button data-view="ai">IA</button>
+    <button data-view="progress">Mi progreso</button>
+    <button data-view="profile">Perfil</button>
+  </nav>
+  <div class="actions"><span class="pill" id="userPill"></span><button class="btn secondary" id="logout">Salir</button></div>
+</header>
+<main class="wrap">
+<section id="homeView">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Tu compañero inteligente para el ENARM</div>
+      <h1 class="title">No estudies más.<br><span style="color:var(--gold)">Estudia mejor.</span></h1>
+      <p>ENARMIA transforma tus respuestas en un mapa de estudio: qué sabes, qué estás fallando y qué te conviene estudiar hoy.</p>
+      <div class="cta"><button class="btn" data-view="questions">Empezar preguntas →</button><button class="btn secondary" data-view="ai">Pedir ayuda a IA</button></div>
+    </div>
+    <div class="mission"><span class="tag">TU SESIÓN DE HOY</span><h3 id="todayTitle">Vamos a descubrir por dónde empezar.</h3><p id="todayText">Aún estamos construyendo tu mapa de rendimiento. Contesta algunas preguntas para que ENARMIA pueda personalizar tu plan.</p><button class="btn" data-view="questions">Empezar ahora →</button></div>
+  </div>
+  <div class="grid stats">
+    <div class="card stat"><div class="label">Preguntas contestadas</div><div class="num" id="statAnswered">0</div></div>
+    <div class="card stat"><div class="label">Aciertos</div><div class="num" id="statAccuracy">0%</div></div>
+    <div class="card stat"><div class="label">Sesiones</div><div class="num" id="statAttempts">0</div></div>
+    <div class="card stat"><div class="label">Meta diaria</div><div class="num" id="statGoal">40</div></div>
+  </div>
+  <div class="section-head"><div><h2>Tu mapa de rendimiento</h2><p>Así vas por especialidad, usando tus respuestas reales.</p></div><button class="btn secondary" data-view="progress">Ver todo →</button></div>
+  <div class="grid dashboard-grid">
+    <div class="card"><div id="specialtyList" class="specialty-list"><div class="empty">Todavía no hay suficientes respuestas para mostrar tu mapa.</div></div></div>
+    <div class="card"><div class="eyebrow">Personaliza ENARMIA</div><h3 style="font:500 27px Georgia,serif;margin:9px 0">¿Cómo quieres que te hable?</h3><p class="subtle">Elige el estilo de tutor que prefieres. Podrás cambiarlo cuando quieras.</p><div id="homeToneChoices" class="choice-grid" style="margin-top:14px"></div><button class="btn" id="saveHomeTone" style="margin-top:13px">Guardar preferencia</button></div>
+  </div>
+  <div class="section-head"><div><h2>Tu siguiente movimiento</h2><p>ENARMIA está pensada para convertir errores en acciones concretas.</p></div></div>
+  <div class="grid feature-grid">
+    <div class="card feature"><div class="eyebrow">01</div><h3>Repaso inteligente</h3><p>Vuelve a tus errores y prioriza lo que todavía no dominas.</p><button class="btn ghost" data-view="review">Ir a repaso →</button></div>
+    <div class="card feature"><div class="eyebrow">02</div><h3>Material de estudio</h3><p>Crea resúmenes, tablas, algoritmos y fichas a partir de lo que estés estudiando.</p><button class="btn ghost" data-view="materials">Crear material →</button></div>
+    <div class="card feature"><div class="eyebrow">03</div><h3>Tu tutor IA</h3><p>Pregunta, pide una explicación o convierte un error en un mini plan de estudio.</p><button class="btn ghost" data-view="ai">Abrir IA →</button></div>
+  </div>
+</section>
+
+<section id="questionsView" class="hidden">
+  <div class="section-head"><div><h2>Banco de preguntas</h2><p>4 opciones · preguntas activas y verificadas.</p></div><button class="btn secondary" data-view="home">← Inicio</button></div>
+  <div id="questionEmpty" class="card empty hidden">No hay preguntas verificadas disponibles.</div>
+  <div id="questionCard" class="card question-card hidden">
+    <div class="meta"><span id="qSpecialty" class="tag"></span><span id="qTopic" class="tag"></span><span id="qNumber" class="tag"></span><span id="qDifficulty" class="tag"></span></div>
+    <div id="qStem" class="stem"></div><div id="options"></div>
+    <div id="feedback" class="feedback hidden"><h3 id="feedbackTitle"></h3><div id="feedbackText" class="explain"></div><div id="feedbackPearl" class="explain" style="margin-top:11px"></div><div id="feedbackGpc" class="explain" style="margin-top:11px"></div></div>
+    <div class="toolbar"><button id="answerBtn" class="btn" disabled>Confirmar respuesta</button><button id="nextBtn" class="btn secondary hidden">Siguiente →</button></div>
+  </div>
+</section>
+
+<section id="reviewView" class="hidden">
+  <div class="section-head"><div><h2>Repaso inteligente</h2><p>Tus respuestas incorrectas se convierten en una cola de repaso.</p></div><button class="btn secondary" data-view="questions">Hacer preguntas →</button></div>
+  <div id="reviewList" class="grid"></div>
+</section>
+
+<section id="materialsView" class="hidden">
+  <div class="section-head"><div><h2>Material de estudio</h2><p>Crea y guarda recursos que acompañen tus preguntas.</p></div></div>
+  <div class="grid profile-grid">
+    <div class="card">
+      <div class="eyebrow">Nuevo material</div><h3 class="title" style="font-size:28px;margin:8px 0">Construye algo para estudiar hoy</h3>
+      <div class="field"><label>Título</label><input id="matTitle" placeholder="Ej. Algoritmo de dolor torácico"></div>
+      <div class="field"><label>Tipo de material</label><select id="matType"><option>Resumen</option><option>Tabla comparativa</option><option>Algoritmo</option><option>Flashcards</option><option>Checklist ENARM</option></select></div>
+      <div class="field"><label>Contenido</label><textarea id="matContent" placeholder="Escribe o pega aquí tu material..."></textarea></div>
+      <button class="btn" id="saveMaterial">Guardar material</button>
+    </div>
+    <div><div class="eyebrow" style="margin:0 0 9px">Tus materiales</div><div id="materialsList" class="grid material-grid"></div></div>
+  </div>
+</section>
+
+<section id="aiView" class="hidden">
+  <div class="section-head"><div><h2>Tu tutor IA</h2><p>Un espacio pensado para estudiar, no solo para preguntar.</p></div></div>
+  <div class="grid dashboard-grid">
+    <div class="card chat">
+      <div class="messages" id="messages"><div class="bubble ai"><strong>Hola. Soy tu tutor ENARMIA.</strong><br>La interfaz ya está lista para que conectemos la IA real. Aquí podrás pedir explicaciones, casos similares, perlas ENARM y planes de repaso.</div></div>
+      <div class="chatbar"><input id="aiInput" placeholder="Ej. Explícame SICA como si mañana presentara ENARM"><button class="btn" id="aiSend">Enviar</button></div>
+    </div>
+    <div class="card"><div class="eyebrow">Acciones rápidas</div><h3 class="title" style="font-size:26px;margin:9px 0">¿Qué necesitas?</h3><div class="today-list">
+      <button class="choice aiQuick" data-prompt="Explícame este tema desde cero y al final hazme 3 preguntas ENARM.">📚 Explícame un tema</button>
+      <button class="choice aiQuick" data-prompt="Analiza mis últimos errores y dime qué debo repasar primero.">🎯 Analiza mis errores</button>
+      <button class="choice aiQuick" data-prompt="Hazme un mini simulador de 5 preguntas sobre mi área más débil.">🧠 Examíname</button>
+      <button class="choice aiQuick" data-prompt="Convierte el tema que estoy estudiando en una tabla de alto rendimiento ENARM.">📝 Crea una tabla</button>
+    </div></div>
+  </div>
+</section>
+
+<section id="progressView" class="hidden">
+  <div class="section-head"><div><h2>Mi progreso</h2><p>Tu rendimiento real, por especialidad y por sesión.</p></div></div>
+  <div class="grid progress-layout"><div class="card"><div class="eyebrow">Resumen</div><div id="bigAccuracy" style="font-size:54px;font-weight:900;margin:9px 0">0%</div><p class="subtle" id="bigAccuracyText">0 aciertos de 0 preguntas.</p><div class="progress" style="margin-top:18px"><div id="overallFill" class="fill" style="width:0%"></div></div></div><div class="card"><div class="eyebrow">Hoy</div><h3 class="title" style="font-size:28px;margin:8px 0" id="progressToday">Vamos a construir tu plan.</h3><p class="subtle">La recomendación se recalcula con tus respuestas guardadas.</p><button class="btn" data-view="questions">Estudiar ahora →</button></div></div>
+  <div class="section-head"><div><h2>Especialidades</h2><p>Tu porcentaje real por área.</p></div></div><div class="card"><div id="progressSpecialties" class="specialty-list"></div></div>
+  <div class="section-head"><div><h2>Sesiones recientes</h2></div></div><div id="recentSessions" class="grid material-grid"></div>
+</section>
+
+<section id="profileView" class="hidden">
+  <div class="section-head"><div><h2>Configura tu ENARMIA</h2><p>Haz que la plataforma se adapte a tu forma de estudiar.</p></div><button class="btn secondary" id="restartOnboarding">Volver a configurar</button></div>
+  <div class="grid profile-grid">
+    <div class="card"><div class="eyebrow">Tutor</div><h3 class="title" style="font-size:28px;margin:8px 0">Cómo quieres que te hable</h3><p class="subtle">Esta preferencia se usará cuando conectemos la IA y también en la retroalimentación.</p><div id="toneChoices" class="choice-grid" style="margin-top:14px"></div>
+      <div class="field"><label>Meta diaria de preguntas</label><input id="dailyGoal" type="number" min="5" max="200"></div><div class="field"><label>Especialidad objetivo</label><input id="targetSpecialty" placeholder="Ej. Otorrinolaringología"></div><div class="field"><label>Fecha de ENARM</label><input id="examDate" type="date"></div><button class="btn" id="saveProfile">Guardar configuración</button></div>
+    <div class="card"><div class="eyebrow">Tu enfoque</div><h3 class="title" style="font-size:28px;margin:8px 0">Así trabajará ENARMIA contigo</h3><div class="today-list"><div class="today-item"><div class="numdot">01</div><div><strong>Diagnóstico de desempeño</strong><div class="mini">Detectamos dónde pierdes puntos, no solo cuánto aciertas.</div></div></div><div class="today-item"><div class="numdot">02</div><div><strong>Plan diario</strong><div class="mini">Cada día recibe una prioridad concreta y preguntas alineadas.</div></div></div><div class="today-item"><div class="numdot">03</div><div><strong>IA con tu estilo</strong><div class="mini">La explicación y el tono se adaptarán a cómo prefieres aprender.</div></div></div><div class="today-item"><div class="numdot">04</div><div><strong>Materiales</strong><div class="mini">Convierte cualquier tema en resumen, tabla, algoritmo o flashcards.</div></div></div></div></div>
+  </div>
+</section>
+</main>
+</div><div id="toast" class="toast"></div>
+<script>
+const SUPABASE_URL='https://smdjwcantfcjbicrltqw.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_E457c6ZdXMIn16I9Ne-uXw_dC61enHU';
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id);
+let isSignup=false,currentUser=null,questions=[],currentIndex=0,selectedOption=null,attemptId=null,profile=null,specialtyStats=[];
+const TONES=['Claro y directo','Amable y motivador','Exigente tipo tutor','Breve y al grano'];
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]))}
+function showView(v){['home','questions','review','materials','ai','progress','profile'].forEach(x=>$(x+'View').classList.toggle('hidden',x!==v));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));if(v==='questions')startQuestions();if(v==='review')loadReview();if(v==='materials')loadMaterials();if(v==='progress')renderProgress();if(v==='profile')loadProfileUI()}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+$('switchBtn').onclick=()=>{isSignup=!isSignup;$('authTitle').textContent=isSignup?'Crea tu cuenta':'Bienvenida de vuelta';$('authSubtitle').textContent=isSignup?'Empieza a construir tu historial ENARM.':'Entra para continuar tu preparación.';$('nameField').classList.toggle('hidden',!isSignup);$('name').required=isSignup;$('authBtn').textContent=isSignup?'Crear cuenta':'Iniciar sesión';$('switchText').textContent=isSignup?'¿Ya tienes cuenta?':'¿Primera vez en ENARMIA?';$('switchBtn').textContent=isSignup?'Iniciar sesión':'Crear cuenta'};
+$('authForm').addEventListener('submit',async e=>{e.preventDefault();const email=$('email').value.trim(),password=$('password').value,name=$('name').value.trim();if(isSignup){const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:window.location.origin+window.location.pathname}});if(error)return toast(error.message);if(!data.session)toast('Revisa tu correo para confirmar la cuenta.');else await boot()}else{const {error}=await db.auth.signInWithPassword({email,password});if(error)return toast(error.message);await boot()}});
+$('logout').onclick=async()=>{await db.auth.signOut();location.reload()};
+async function boot(){const {data:{user}}=await db.auth.getUser();if(!user){$('authView').classList.remove('hidden');$('appView').classList.add('hidden');$('onboardingView').classList.add('hidden');return}currentUser=user;$('authView').classList.add('hidden');$('userPill').textContent=user.user_metadata?.full_name||user.email;await loadProfile();if(!profile.onboarding_completed){$('appView').classList.add('hidden');$('onboardingView').classList.remove('hidden');startOnboarding();}else{$('onboardingView').classList.add('hidden');$('appView').classList.remove('hidden');await loadDashboard()}}
+async function loadProfile(){const {data}=await db.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();profile=data||{daily_goal:40,topic_goal:1,communication_style:'Claro y directo',onboarding_completed:false,available_minutes:90,days_per_week:6,learning_preferences:['preguntas'],focus_mode:'errores',focus_topics:[],study_days:[],preferred_study_time:'mañana'};$('statGoal').textContent=profile.daily_goal||40;}
+async function getDataset(){const {data:answers}=await db.from('attempt_answers').select('id,attempt_id,question_id,is_correct,answered_at').order('answered_at',{ascending:false});const {data:questionsData}=await db.from('questions').select('id,topic_id');const {data:topics}=await db.from('topics').select('id,name,specialty_id,specialties(id,name)');const {data:attempts}=await db.from('attempts').select('id,total_questions,answered_questions,correct_answers,started_at,completed_at').order('started_at',{ascending:false});return {answers:answers||[],questions:questionsData||[],topics:topics||[],attempts:attempts||[]}}
+async function loadDashboard(){const d=await getDataset();const {answers,questions:qs,topics,attempts}=d;const correct=answers.filter(a=>a.is_correct).length;$('statAnswered').textContent=answers.length;$('statAccuracy').textContent=(answers.length?Math.round(correct/answers.length*100):0)+'%';$('statAttempts').textContent=attempts.length;buildSpecialtyStats(answers,qs,topics);renderToday();}
+function buildSpecialtyStats(answers,qs,topics){const qmap=new Map(qs.map(q=>[q.id,q.topic_id]));const tmap=new Map(topics.map(t=>[t.id,t]));const acc={};for(const a of answers){const tid=qmap.get(a.question_id);const t=tmap.get(tid);const s=t?.specialties;if(!s)continue;const k=s.id;if(!acc[k])acc[k]={name:s.name,total:0,correct:0};acc[k].total++;if(a.is_correct)acc[k].correct++}specialtyStats=Object.values(acc).map(x=>({...x,pct:Math.round(x.correct/x.total*100)})).sort((a,b)=>a.pct-b.pct);renderSpecialtyList('specialtyList',specialtyStats);renderSpecialtyList('progressSpecialties',specialtyStats,true)}
+function renderSpecialtyList(id,arr,showEmpty=false){const el=$(id);if(!arr.length){el.innerHTML='<div class="empty">'+(showEmpty?'Aún no hay suficientes respuestas por especialidad.':'Contesta algunas preguntas y ENARMIA empezará a construir este mapa.')+'</div>';return}el.innerHTML=arr.map(s=>`<div class="spec-row"><div>${esc(s.name)}</div><div class="bar"><div class="fill" style="width:${s.pct}%"></div></div><div class="spec-pct ${s.pct<60?'weak':s.pct>=75?'good':''}">${s.pct}%</div></div>`).join('')}
+function renderToday(){if(!specialtyStats.length){$('todayTitle').textContent=profile?.onboarding_completed?`Hoy: ${profile?.daily_goal||30} preguntas · ${profile?.topic_goal||1} tema.`:'Primero construyamos tu mapa.';$('todayText').textContent=profile?.onboarding_completed?`ENARMIA va a priorizar ${profile?.focus_mode==='curso'?'lo que toca en tu curso':profile?.focus_mode==='prioridades'?'tus temas prioritarios':'tus errores y áreas débiles'} y ajustar la carga a tus ${profile?.available_minutes||90} minutos disponibles.`:'Haz tu primera sesión para que ENARMIA pueda empezar a personalizar tu plan.';$('progressToday').textContent=profile?.onboarding_completed?`Tu misión: ${profile?.daily_goal||30} preguntas + ${profile?.topic_goal||1} tema.`:'Contesta preguntas para desbloquear tu plan.';return}const weakest=specialtyStats[0];$('todayTitle').textContent=`Hoy te toca estudiar ${weakest.name}.`;$('todayText').textContent=`Vas en ${weakest.pct}% en esta área. ENARMIA la prioriza porque es donde más puntos puedes recuperar. Tu carga inicial es ${profile?.daily_goal||30} preguntas y ${profile?.topic_goal||1} tema.`;$('progressToday').textContent=`Hoy: ${profile?.daily_goal||30} preguntas · ${profile?.topic_goal||1} tema · ${profile?.available_minutes||90} min.`}
+async function startQuestions(){const {data,error}=await db.from('questions').select('id,source_ref,stem,explanation,pearl,gpc_source,difficulty,topic_id,topics(name,specialties(name)),question_options(id,option_key,option_text,sort_order)').eq('active',true).eq('review_status','verified').order('created_at',{ascending:true});if(error){toast(error.message);return}questions=data||[];currentIndex=0;selectedOption=null;$('questionEmpty').classList.toggle('hidden',!!questions.length);$('questionCard').classList.toggle('hidden',!questions.length);if(!questions.length)return;const {data:attempt,error:ae}=await db.from('attempts').insert({user_id:currentUser.id,mode:'practice',total_questions:questions.length}).select().single();if(ae){toast(ae.message);return}attemptId=attempt.id;renderQuestion()}
+function renderQuestion(){const q=questions[currentIndex];selectedOption=null;$('answerBtn').disabled=true;$('nextBtn').classList.add('hidden');$('feedback').classList.add('hidden');$('qSpecialty').textContent=q.topics?.specialties?.name||'ENARM';$('qTopic').textContent=q.topics?.name||'Tema';$('qNumber').textContent=`${currentIndex+1}/${questions.length}`;$('qDifficulty').textContent='Dificultad '+(q.difficulty||3)+'/5';$('qStem').innerHTML=q.stem.split('\n').map(x=>`<p>${esc(x)}</p>`).join('');$('options').innerHTML=(q.question_options||[]).sort((a,b)=>a.sort_order-b.sort_order).map(o=>`<button class="option" data-id="${o.id}"><span class="key">${esc(o.option_key)}</span>${esc(o.option_text)}</button>`).join('');document.querySelectorAll('.option').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');selectedOption=btn.dataset.id;$('answerBtn').disabled=false})}
+$('answerBtn').onclick=async()=>{if(!selectedOption)return;const q=questions[currentIndex];$('answerBtn').disabled=true;const {data,error}=await db.rpc('submit_answer',{p_attempt_id:attemptId,p_question_id:q.id,p_selected_option_id:selectedOption});if(error){toast(error.message);$('answerBtn').disabled=false;return}const ok=!!data?.is_correct;document.querySelectorAll('.option').forEach(b=>{if(b.dataset.id===selectedOption)b.classList.add(ok?'correct':'wrong')});$('feedback').className='feedback '+(ok?'good':'bad');$('feedbackTitle').textContent=ok?'✓ Correcto':'✕ Incorrecto';$('feedbackText').innerHTML=`<strong>Explicación</strong><br>${esc(q.explanation||'Revisión pendiente.')}`;$('feedbackPearl').innerHTML=q.pearl?`<strong style="color:var(--gold)">Perla ENARM</strong><br>${esc(q.pearl)}`:'';$('feedbackGpc').innerHTML=q.gpc_source?`<strong>GPC / fuente</strong><br>${esc(q.gpc_source)}`:'';$('feedback').classList.remove('hidden');if(currentIndex<questions.length-1)$('nextBtn').classList.remove('hidden');else await db.from('attempts').update({completed_at:new Date().toISOString()}).eq('id',attemptId).eq('user_id',currentUser.id);await loadDashboard()};
+$('nextBtn').onclick=()=>{currentIndex++;renderQuestion()};
+async function loadReview(){const {data:wrong}=await db.from('attempt_answers').select('question_id,is_correct,answered_at').eq('is_correct',false).order('answered_at',{ascending:false}).limit(12);if(!wrong?.length){$('reviewList').innerHTML='<div class="card empty">Aún no tienes errores para repasar. Sigue practicando y aquí aparecerán.</div>';return}const ids=[...new Set(wrong.map(x=>x.question_id))];const {data:qs}=await db.from('questions').select('id,stem,pearl,topic_id,topics(name,specialties(name))').in('id',ids);$('reviewList').innerHTML=(qs||[]).map(q=>`<div class="card"><div class="meta"><span class="tag">${esc(q.topics?.specialties?.name||'ENARM')}</span><span class="tag">${esc(q.topics?.name||'Tema')}</span></div><h3 class="title" style="font-size:24px;margin:8px 0">Repasa este caso</h3><p style="line-height:1.6">${esc(q.stem)}</p>${q.pearl?`<p class="mini"><strong style="color:var(--gold)">Perla ENARM:</strong> ${esc(q.pearl)}</p>`:''}</div>`).join('')}
+async function loadMaterials(){const {data,error}=await db.from('study_materials').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});if(error){$('materialsList').innerHTML='<div class="card empty">Aún no está habilitado el almacenamiento de materiales.</div>';return}$('materialsList').innerHTML=(data||[]).length?(data||[]).map(m=>`<div class="card material-card"><span class="tag">${esc(m.material_type)}</span><h3>${esc(m.title)}</h3><p>${esc((m.content||'').slice(0,130))}${(m.content||'').length>130?'…':''}</p><div class="mini">${new Date(m.created_at).toLocaleDateString('es-MX')}</div></div>`).join(''):'<div class="card empty">Aún no tienes materiales. Crea el primero.</div>'}
+$('saveMaterial').onclick=async()=>{const title=$('matTitle').value.trim(),type=$('matType').value,content=$('matContent').value.trim();if(!title||!content)return toast('Completa título y contenido');const {error}=await db.from('study_materials').insert({user_id:currentUser.id,title,material_type:type,content});if(error)return toast(error.message);$('matTitle').value='';$('matContent').value='';toast('Material guardado');loadMaterials()};
+function toneHTML(selected){return TONES.map(t=>`<button class="choice ${selected===t?'active':''}" data-tone="${esc(t)}">${esc(t)}</button>`).join('')}
+function wireTone(containerId){document.querySelectorAll('#'+containerId+' .choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('#'+containerId+' .choice').forEach(x=>x.classList.remove('active'));b.classList.add('active')})}
+function currentTone(containerId){return document.querySelector('#'+containerId+' .choice.active')?.dataset.tone||TONES[0]}
+async function loadProfileUI(){const p=profile||{};$('toneChoices').innerHTML=toneHTML(p.communication_style||TONES[0]);wireTone('toneChoices');$('dailyGoal').value=p.daily_goal||40;$('targetSpecialty').value=p.target_specialty||'';$('examDate').value=p.exam_date||''}
+async function saveProfile(){const tone=currentTone('toneChoices');const patch={daily_goal:Math.max(5,Math.min(200,Number($('dailyGoal').value||40))),target_specialty:$('targetSpecialty').value.trim()||null,exam_date:$('examDate').value||null,communication_style:tone,updated_at:new Date().toISOString()};const {error}=await db.from('profiles').update(patch).eq('id',currentUser.id);if(error)return toast(error.message);profile={...profile,...patch};$('statGoal').textContent=patch.daily_goal;toast('Configuración guardada');}
+$('restartOnboarding').onclick=()=>{obStep=0;$('onboardingView').classList.remove('hidden');$('appView').classList.add('hidden');startOnboarding()};$('saveProfile').onclick=saveProfile;$('homeToneChoices').innerHTML=toneHTML('Claro y directo');wireTone('homeToneChoices');$('saveHomeTone').onclick=async()=>{const tone=currentTone('homeToneChoices');const {error}=await db.from('profiles').update({communication_style:tone,updated_at:new Date().toISOString()}).eq('id',currentUser.id);if(error)return toast(error.message);profile.communication_style=tone;toast('Preferencia guardada')};
+function sendAI(text){const input=$('aiInput');const p=(text||input.value).trim();if(!p)return;const box=$('messages');box.insertAdjacentHTML('beforeend',`<div class="bubble me">${esc(p)}</div>`);input.value='';setTimeout(()=>box.insertAdjacentHTML('beforeend','<div class="bubble ai">La interfaz de tu tutor IA ya está lista. El siguiente paso es conectar el modelo real mediante una función segura para no exponer ninguna clave en el navegador.</div>'),250);box.scrollTop=box.scrollHeight}
+$('aiSend').onclick=()=>sendAI();$('aiInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendAI()});document.querySelectorAll('.aiQuick').forEach(b=>b.onclick=()=>{showView('ai');$('aiInput').value=b.dataset.prompt});
+async function renderProgress(){await loadDashboard();const d=await getDataset();const correct=d.answers.filter(a=>a.is_correct).length,pct=d.answers.length?Math.round(correct/d.answers.length*100):0;$('bigAccuracy').textContent=pct+'%';$('bigAccuracyText').textContent=`${correct} aciertos de ${d.answers.length} preguntas.`;$('overallFill').style.width=pct+'%';const ses=(d.attempts||[]).slice(0,6);$('recentSessions').innerHTML=ses.length?ses.map(a=>`<div class="card"><span class="tag">${esc(a.mode||'practice')}</span><h3 style="font-size:31px;margin:10px 0">${a.answered_questions?Math.round(a.correct_answers/a.answered_questions*100):0}%</h3><div class="mini">${a.correct_answers} aciertos de ${a.answered_questions}</div></div>`).join(''):'<div class="card empty">Aún no tienes sesiones guardadas.</div>'}
+
+// ========================= ONBOARDING =========================
+let obStep=0;
+const obState={level:'Estoy empezando',examDate:'',targetSpecialty:'',currentLevel:'inicio',minutes:90,days:6,time:'mañana',questionGoal:30,topicGoal:1,learning:new Set(['preguntas']),focusTopics:'',focusMode:'errores',tone:'Claro y directo',calendarFile:null};
+function renderObDots(){const el=$('onboardingDots');el.innerHTML=Array.from({length:8},(_,i)=>`<span class="step-dot ${i===obStep?'active':''}"></span>`).join('')}
+function showObStep(n){obStep=Math.max(0,Math.min(7,n));document.querySelectorAll('.onboarding-step').forEach((x,i)=>x.classList.toggle('active',i===obStep));renderObDots();$('obBack').classList.toggle('hidden',obStep===0);$('obSkip').classList.toggle('hidden',obStep===7||obStep===0);$('obNext').textContent=obStep===7?'Entrar a mi ENARMIA →':'Continuar →';$('welcomeName').textContent=(currentUser?.user_metadata?.full_name||'Karen').split(' ')[0];if(obStep===7)renderObSummary()}
+function bindObChoices(){document.querySelectorAll('[data-exam-level]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-exam-level]').forEach(x=>x.classList.remove('active'));b.classList.add('active');obState.level=b.dataset.examLevel});document.querySelectorAll('#obTimeChoices .choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('#obTimeChoices .choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');obState.time=b.dataset.time});document.querySelectorAll('#obQuestionPresets .choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('#obQuestionPresets .choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(b.dataset.q!=='custom'){obState.questionGoal=Number(b.dataset.q);$('obQuestionGoal').value=obState.questionGoal}else $('obQuestionGoal').focus();renderObLoad()});document.querySelectorAll('#obLearningChoices .choice').forEach(b=>b.onclick=()=>{const k=b.dataset.learn;b.classList.toggle('active');b.classList.contains('active')?obState.learning.add(k):obState.learning.delete(k);if(!obState.learning.size){b.classList.add('active');obState.learning.add(k)}});document.querySelectorAll('#obToneChoices .choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('#obToneChoices .choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');obState.tone=b.dataset.tone});$('obCalendar').onchange=e=>{obState.calendarFile=e.target.files?.[0]||null;const chip=$('obFileChip');if(obState.calendarFile){chip.classList.remove('hidden');chip.querySelector('span').textContent=obState.calendarFile.name}};['obMinutes','obQuestionGoal','obTopicGoal'].forEach(id=>$(id).addEventListener('input',renderObLoad));$('obTopicGoal').addEventListener('change',renderObLoad);$('obExamDate').addEventListener('change',()=>{obState.examDate=$('obExamDate').value;renderObDate()});$('obTargetSpecialty').addEventListener('input',()=>obState.targetSpecialty=$('obTargetSpecialty').value);$('obCurrentLevel').addEventListener('change',()=>obState.currentLevel=$('obCurrentLevel').value);$('obFocusTopics').addEventListener('input',()=>obState.focusTopics=$('obFocusTopics').value);$('obFocusMode').addEventListener('change',()=>obState.focusMode=$('obFocusMode').value)}
+function renderObLoad(){obState.minutes=Math.max(15,Math.min(600,Number($('obMinutes').value||90)));obState.questionGoal=Math.max(5,Math.min(280,Number($('obQuestionGoal').value||30)));obState.topicGoal=Math.max(1,Math.min(4,Number($('obTopicGoal').value||1)));$('obCalcQ').textContent=obState.questionGoal;$('obCalcT').textContent=obState.topicGoal;$('obCalcM').textContent=obState.minutes+'m';$('obLoadTitle').textContent=`${obState.questionGoal} preguntas + ${obState.topicGoal} tema${obState.topicGoal>1?'s':''}.`;$('obLoadText').textContent=obState.questionGoal*1.5+obState.topicGoal*15>obState.minutes*1.1?`Es una carga ambiciosa para ${obState.minutes} minutos. ENARMIA podrá ajustar la sesión si un día no te alcanza el tiempo.`:`Esta carga cabe razonablemente en ${obState.minutes} minutos. ENARMIA la usará como punto de partida.`}
+function renderObDate(){const d=obState.examDate?new Date(obState.examDate+'T12:00:00'):null;const now=new Date();const days=d?Math.max(0,Math.ceil((d-now)/86400000)):null;const box=$('obDatePreview');box.innerHTML=`<div class="recommend"><span>fecha</span><strong>${d?d.toLocaleDateString('es-MX',{day:'2-digit',month:'short'}):'—'}</strong></div><div class="recommend"><span>tiempo</span><strong>${days!==null?days+' días':'por definir'}</strong></div><div class="recommend"><span>carga</span><strong>${days!==null?(days>120?'progresiva':days>60?'constante':'intensa'):'adaptativa'}</strong></div>`}
+function renderObSummary(){const learns=[...obState.learning].map(x=>({preguntas:'Preguntas',teoria:'Teoría breve',flashcards:'Flashcards',casos:'Casos clínicos'}[x]||x));$('obSummaryQ').textContent=obState.questionGoal;$('obSummaryT').textContent=obState.topicGoal;$('obSummaryM').textContent=obState.minutes+' min';$('obSummaryGoal').textContent=obState.targetSpecialty||'Preparación ENARM';$('obSummaryLearn').textContent=learns.join(', ');$('obSummaryFocus').textContent=obState.focusMode==='curso'?'Curso':obState.focusMode==='prioridades'?'Tus prioridades':obState.focusMode==='mixto'?'Mixto':'Errores';$('obSummaryTone').textContent=obState.tone;$('obSummaryFile').textContent=obState.calendarFile?.name||'No subido';$('obSummaryText').textContent=`Tienes ${obState.minutes} minutos por día y quieres hacer ${obState.questionGoal} preguntas y tocar ${obState.topicGoal} tema${obState.topicGoal>1?'s':''}. ENARMIA ajustará la misión según lo que vas contestando.`}
+function startOnboarding(){obStep=0;bindObChoices();showObStep(0);renderObLoad();renderObDate()}
+async function finishOnboarding(){const file=obState.calendarFile;let calendarPath=null;if(file){const clean=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');calendarPath=`${currentUser.id}/${Date.now()}-${clean}`;const {error}=await db.storage.from('course-calendars').upload(calendarPath,file,{upsert:true,contentType:file.type||undefined});if(error)return toast('No pude subir el calendario: '+error.message)}const patch={onboarding_completed:true,exam_date:obState.examDate||null,target_specialty:obState.targetSpecialty||null,communication_style:obState.tone,daily_goal:obState.questionGoal,topic_goal:obState.topicGoal,available_minutes:obState.minutes,days_per_week:obState.days,preferred_study_time:obState.time,learning_preferences:[...obState.learning],focus_topics:(obState.focusTopics||'').split(',').map(s=>s.trim()).filter(Boolean),focus_mode:obState.focusMode,current_level:obState.currentLevel,course_calendar_name:file?.name||null,course_calendar_path:calendarPath,updated_at:new Date().toISOString()};const {data,error}=await db.from('profiles').update(patch).eq('id',currentUser.id).select().single();if(error){toast(error.message);return}profile=data;$('onboardingView').classList.add('hidden');$('appView').classList.remove('hidden');await loadDashboard();toast('Tu ENARMIA quedó configurada ✦')}
+$('obBack').onclick=()=>showObStep(obStep-1);$('obSkip').onclick=()=>{showObStep(7)};$('obNext').onclick=()=>{if(obStep<7){if(obStep===1){obState.examDate=$('obExamDate').value;obState.targetSpecialty=$('obTargetSpecialty').value;obState.currentLevel=$('obCurrentLevel').value}if(obStep===2){obState.minutes=Math.max(15,Number($('obMinutes').value||90));obState.days=Number($('obDays').value||6);obState.time=document.querySelector('#obTimeChoices .choice.active')?.dataset.time||'mañana'}if(obStep===3){obState.questionGoal=Math.max(5,Number($('obQuestionGoal').value||30));obState.topicGoal=Number($('obTopicGoal').value||1)}if(obStep===5){obState.focusTopics=$('obFocusTopics').value;obState.focusMode=$('obFocusMode').value}showObStep(obStep+1)}else finishOnboarding()};$('obDays').addEventListener('change',()=>obState.days=Number($('obDays').value||6));
+
+boot();db.auth.onAuthStateChange(e=>{if(e==='SIGNED_IN')boot()});
+</script>
+</body>
+</html>
